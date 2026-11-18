@@ -1,29 +1,203 @@
+
 [
   {
     "id": "001",
-    "field": "",
-    "update_type": "",
-    "valid_documents": "",
-    "limit": "",
-    "fee": "",
-    "mode": ""
+    "field": "Name",
+    "update_type": "Demographic Update",
+    "valid_documents": ["Proof of Identity (PoI)"],
+    "limit": "As per UIDAI rules",
+    "fee": "As per applicable UIDAI fee",
+    "mode": ["Aadhaar Seva Kendra", "Enrollment Centre"],
+    "source_url": "https://uidai.gov.in/en/updating-data-on-aadhaar"
   },
   {
     "id": "002",
-    "field": "",
-    "update_type": "",
-    "valid_documents": "",
-    "limit": "",
-    "fee": "",
-    "mode": ""
+    "field": "Date of Birth",
+    "update_type": "Demographic Update",
+    "valid_documents": ["Proof of Date of Birth (PDB)"],
+    "limit": "As per UIDAI rules",
+    "fee": "As per applicable UIDAI fee",
+    "mode": ["Aadhaar Seva Kendra", "Enrollment Centre"],
+    "source_url": "https://uidai.gov.in/en/updating-data-on-aadhaar"
   },
   {
     "id": "003",
-    "field": "",
-    "update_type": "",
-    "valid_documents": "",
-    "limit": "",
-    "fee": "",
-    "mode": ""
+    "field": "Gender",
+    "update_type": "Demographic Update",
+    "valid_documents": ["Supporting documents if required"],
+    "limit": "As per UIDAI rules",
+    "fee": "As per applicable UIDAI fee",
+    "mode": ["Aadhaar Seva Kendra", "Enrollment Centre"],
+    "source_url": "https://uidai.gov.in/en/updating-data-on-aadhaar"
+  },
+  {
+    "id": "004",
+    "field": "Address",
+    "update_type": "Demographic Update",
+    "valid_documents": ["Proof of Address (PoA)"],
+    "limit": "As per UIDAI rules",
+    "fee": "As per applicable UIDAI fee",
+    "mode": ["Aadhaar Seva Kendra", "Enrollment Centre", "myAadhaar portal"],
+    "source_url": "https://uidai.gov.in/en/updating-data-on-aadhaar"
+  },
+  {
+    "id": "005",
+    "field": "Mobile Number",
+    "update_type": "Contact Information Update",
+    "valid_documents": ["Aadhaar authentication"],
+    "limit": "As per UIDAI rules",
+    "fee": "As per applicable UIDAI fee",
+    "mode": ["Aadhaar Seva Kendra", "Enrollment Centre"],
+    "source_url": "https://uidai.gov.in/en/updating-data-on-aadhaar"
+  },
+  {
+    "id": "006",
+    "field": "Email Address",
+    "update_type": "Contact Information Update",
+    "valid_documents": ["Aadhaar authentication"],
+    "limit": "As per UIDAI rules",
+    "fee": "As per applicable UIDAI fee",
+    "mode": ["Aadhaar Seva Kendra", "Enrollment Centre"],
+    "source_url": "https://uidai.gov.in/en/updating-data-on-aadhaar"
+  },
+  {
+    "id": "007",
+    "field": "Photograph",
+    "update_type": "Biometric Update",
+    "valid_documents": ["Aadhaar authentication"],
+    "limit": "As per UIDAI rules",
+    "fee": "As per applicable UIDAI fee",
+    "mode": ["Aadhaar Seva Kendra", "Enrollment Centre"],
+    "source_url": "https://uidai.gov.in/en/aadhaar-seva-kendra"
+  },
+  {
+    "id": "008",
+    "field": "Fingerprints",
+    "update_type": "Biometric Update",
+    "valid_documents": ["Aadhaar authentication"],
+    "limit": "As per UIDAI rules",
+    "fee": "As per applicable UIDAI fee",
+    "mode": ["Aadhaar Seva Kendra", "Enrollment Centre"],
+    "source_url": "https://uidai.gov.in/en/aadhaar-seva-kendra"
+  },
+  {
+    "id": "009",
+    "field": "Iris Scan",
+    "update_type": "Biometric Update",
+    "valid_documents": ["Aadhaar authentication"],
+    "limit": "As per UIDAI rules",
+    "fee": "As per applicable UIDAI fee",
+    "mode": ["Aadhaar Seva Kendra", "Enrollment Centre"],
+    "source_url": "https://uidai.gov.in/en/aadhaar-seva-kendra"
+  },
+  {
+    "id": "010",
+    "field": "Name Correction",
+    "update_type": "Demographic Correction",
+    "valid_documents": ["Proof of Identity (PoI)"],
+    "limit": "As per UIDAI rules",
+    "fee": "As per applicable UIDAI fee",
+    "mode": ["Aadhaar Seva Kendra", "Enrollment Centre"],
+    "source_url": "https://uidai.gov.in/en/updating-data-on-aadhaar"
+  },
+  {
+    "id": "011",
+    "field": "Address Correction",
+    "update_type": "Demographic Correction",
+    "valid_documents": ["Proof of Address (PoA)"],
+    "limit": "As per UIDAI rules",
+    "fee": "As per applicable UIDAI fee",
+    "mode": ["Aadhaar Seva Kendra", "Enrollment Centre", "myAadhaar portal"],
+    "source_url": "https://uidai.gov.in/en/updating-data-on-aadhaar"
+  },
+  {
+    "id": "012",
+    "field": "Date of Birth Correction",
+    "update_type": "Demographic Correction",
+    "valid_documents": ["Proof of Date of Birth (PDB)"],
+    "limit": "As per UIDAI rules",
+    "fee": "As per applicable UIDAI fee",
+    "mode": ["Aadhaar Seva Kendra", "Enrollment Centre"],
+    "source_url": "https://uidai.gov.in/en/updating-data-on-aadhaar"
+  },
+  {
+    "id": "013",
+    "field": "Document Update",
+    "update_type": "Document Renewal or Update",
+    "valid_documents": ["Proof of Identity (PoI)", "Proof of Address (PoA)"],
+    "limit": "As per UIDAI rules",
+    "fee": "Check current UIDAI charges",
+    "mode": ["myAadhaar portal", "Aadhaar Seva Kendra"],
+    "source_url": "https://uidai.gov.in/en/enrolment-documents"
+  },
+  {
+    "id": "014",
+    "field": "Child Biometric Update",
+    "update_type": "Mandatory Biometric Update",
+    "valid_documents": ["Aadhaar authentication"],
+    "limit": "Based on age and UIDAI requirements",
+    "fee": "Check current UIDAI charges",
+    "mode": ["Aadhaar Seva Kendra", "Enrollment Centre"],
+    "source_url": "https://uidai.gov.in/en/aadhaar-seva-kendra"
+  },
+  {
+    "id": "015",
+    "field": "Aadhaar Enrollment",
+    "update_type": "New Enrollment",
+    "valid_documents": ["Proof of Identity", "Proof of Address", "Proof of Date of Birth"],
+    "limit": "One Aadhaar per individual",
+    "fee": "Free (verify current UIDAI policy)",
+    "mode": ["Aadhaar Seva Kendra", "Enrollment Centre"],
+    "source_url": "https://uidai.gov.in/en/enrolment-documents"
+  },
+  {
+    "id": "016",
+    "field": "Lost Aadhaar Retrieval",
+    "update_type": "Aadhaar Retrieval",
+    "valid_documents": ["Registered Mobile Number", "Identity Verification"],
+    "limit": "As required",
+    "fee": "Check current UIDAI charges",
+    "mode": ["myAadhaar portal", "UIDAI website"],
+    "source_url": "https://myaadhaar.uidai.gov.in/"
+  },
+  {
+    "id": "017",
+    "field": "PVC Aadhaar Card",
+    "update_type": "Card Ordering",
+    "valid_documents": ["Aadhaar Number or VID"],
+    "limit": "As required",
+    "fee": "Check current UIDAI charges",
+    "mode": ["UIDAI website", "myAadhaar portal"],
+    "source_url": "https://uidai.gov.in/en/my-aadhaar"
+  },
+  {
+    "id": "018",
+    "field": "Virtual ID (VID)",
+    "update_type": "VID Generation",
+    "valid_documents": ["Aadhaar authentication"],
+    "limit": "As required",
+    "fee": "Free (verify current UIDAI policy)",
+    "mode": ["myAadhaar portal", "UIDAI website"],
+    "source_url": "https://uidai.gov.in/en/my-aadhaar"
+  },
+  {
+    "id": "019",
+    "field": "Aadhaar Authentication History",
+    "update_type": "History Retrieval",
+    "valid_documents": ["Aadhaar authentication"],
+    "limit": "Available history as per UIDAI",
+    "fee": "Free (verify current UIDAI policy)",
+    "mode": ["myAadhaar portal", "UIDAI website"],
+    "source_url": "https://uidai.gov.in/en/my-aadhaar"
+  },
+  {
+    "id": "020",
+    "field": "Aadhaar Lock and Unlock",
+    "update_type": "Security Management",
+    "valid_documents": ["Aadhaar authentication", "VID if required"],
+    "limit": "As required",
+    "fee": "Free (verify current UIDAI policy)",
+    "mode": ["myAadhaar portal", "UIDAI website"],
+    "source_url": "https://uidai.gov.in/en/my-aadhaar"
   }
 ]
