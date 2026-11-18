@@ -1,3 +1,4 @@
+
 [
   {
     "id": "001",
@@ -6,7 +7,8 @@
     "valid_documents": ["Proof of Identity (PoI)"],
     "limit": "As per UIDAI rules",
     "fee": "As per applicable UIDAI fee",
-    "mode": ["Aadhaar Seva Kendra", "Enrollment Centre"]
+    "mode": ["Aadhaar Seva Kendra", "Enrollment Centre"],
+    "source_url": "https://uidai.gov.in/en/updating-data-on-aadhaar"
   },
   {
     "id": "002",
@@ -15,7 +17,8 @@
     "valid_documents": ["Proof of Date of Birth (PDB)"],
     "limit": "As per UIDAI rules",
     "fee": "As per applicable UIDAI fee",
-    "mode": ["Aadhaar Seva Kendra", "Enrollment Centre"]
+    "mode": ["Aadhaar Seva Kendra", "Enrollment Centre"],
+    "source_url": "https://uidai.gov.in/en/updating-data-on-aadhaar"
   },
   {
     "id": "003",
@@ -24,7 +27,8 @@
     "valid_documents": ["Supporting documents if required"],
     "limit": "As per UIDAI rules",
     "fee": "As per applicable UIDAI fee",
-    "mode": ["Aadhaar Seva Kendra", "Enrollment Centre"]
+    "mode": ["Aadhaar Seva Kendra", "Enrollment Centre"],
+    "source_url": "https://uidai.gov.in/en/updating-data-on-aadhaar"
   },
   {
     "id": "004",
@@ -33,7 +37,8 @@
     "valid_documents": ["Proof of Address (PoA)"],
     "limit": "As per UIDAI rules",
     "fee": "As per applicable UIDAI fee",
-    "mode": ["Aadhaar Seva Kendra", "Enrollment Centre", "myAadhaar portal"]
+    "mode": ["Aadhaar Seva Kendra", "Enrollment Centre", "myAadhaar portal"],
+    "source_url": "https://uidai.gov.in/en/updating-data-on-aadhaar"
   },
   {
     "id": "005",
@@ -42,7 +47,8 @@
     "valid_documents": ["Aadhaar authentication"],
     "limit": "As per UIDAI rules",
     "fee": "As per applicable UIDAI fee",
-    "mode": ["Aadhaar Seva Kendra", "Enrollment Centre"]
+    "mode": ["Aadhaar Seva Kendra", "Enrollment Centre"],
+    "source_url": "https://uidai.gov.in/en/updating-data-on-aadhaar"
   },
   {
     "id": "006",
@@ -51,7 +57,8 @@
     "valid_documents": ["Aadhaar authentication"],
     "limit": "As per UIDAI rules",
     "fee": "As per applicable UIDAI fee",
-    "mode": ["Aadhaar Seva Kendra", "Enrollment Centre"]
+    "mode": ["Aadhaar Seva Kendra", "Enrollment Centre"],
+    "source_url": "https://uidai.gov.in/en/updating-data-on-aadhaar"
   },
   {
     "id": "007",
@@ -60,7 +67,8 @@
     "valid_documents": ["Aadhaar authentication"],
     "limit": "As per UIDAI rules",
     "fee": "As per applicable UIDAI fee",
-    "mode": ["Aadhaar Seva Kendra", "Enrollment Centre"]
+    "mode": ["Aadhaar Seva Kendra", "Enrollment Centre"],
+    "source_url": "https://uidai.gov.in/en/aadhaar-seva-kendra"
   },
   {
     "id": "008",
@@ -69,7 +77,8 @@
     "valid_documents": ["Aadhaar authentication"],
     "limit": "As per UIDAI rules",
     "fee": "As per applicable UIDAI fee",
-    "mode": ["Aadhaar Seva Kendra", "Enrollment Centre"]
+    "mode": ["Aadhaar Seva Kendra", "Enrollment Centre"],
+    "source_url": "https://uidai.gov.in/en/aadhaar-seva-kendra"
   },
   {
     "id": "009",
@@ -78,7 +87,8 @@
     "valid_documents": ["Aadhaar authentication"],
     "limit": "As per UIDAI rules",
     "fee": "As per applicable UIDAI fee",
-    "mode": ["Aadhaar Seva Kendra", "Enrollment Centre"]
+    "mode": ["Aadhaar Seva Kendra", "Enrollment Centre"],
+    "source_url": "https://uidai.gov.in/en/aadhaar-seva-kendra"
   },
   {
     "id": "010",
@@ -87,7 +97,8 @@
     "valid_documents": ["Proof of Identity (PoI)"],
     "limit": "As per UIDAI rules",
     "fee": "As per applicable UIDAI fee",
-    "mode": ["Aadhaar Seva Kendra", "Enrollment Centre"]
+    "mode": ["Aadhaar Seva Kendra", "Enrollment Centre"],
+    "source_url": "https://uidai.gov.in/en/updating-data-on-aadhaar"
   },
   {
     "id": "011",
@@ -96,7 +107,8 @@
     "valid_documents": ["Proof of Address (PoA)"],
     "limit": "As per UIDAI rules",
     "fee": "As per applicable UIDAI fee",
-    "mode": ["Aadhaar Seva Kendra", "Enrollment Centre", "myAadhaar portal"]
+    "mode": ["Aadhaar Seva Kendra", "Enrollment Centre", "myAadhaar portal"],
+    "source_url": "https://uidai.gov.in/en/updating-data-on-aadhaar"
   },
   {
     "id": "012",
@@ -105,7 +117,8 @@
     "valid_documents": ["Proof of Date of Birth (PDB)"],
     "limit": "As per UIDAI rules",
     "fee": "As per applicable UIDAI fee",
-    "mode": ["Aadhaar Seva Kendra", "Enrollment Centre"]
+    "mode": ["Aadhaar Seva Kendra", "Enrollment Centre"],
+    "source_url": "https://uidai.gov.in/en/updating-data-on-aadhaar"
   },
   {
     "id": "013",
@@ -114,7 +127,8 @@
     "valid_documents": ["Proof of Identity (PoI)", "Proof of Address (PoA)"],
     "limit": "As per UIDAI rules",
     "fee": "Check current UIDAI charges",
-    "mode": ["myAadhaar portal", "Aadhaar Seva Kendra"]
+    "mode": ["myAadhaar portal", "Aadhaar Seva Kendra"],
+    "source_url": "https://uidai.gov.in/en/enrolment-documents"
   },
   {
     "id": "014",
@@ -123,7 +137,8 @@
     "valid_documents": ["Aadhaar authentication"],
     "limit": "Based on age and UIDAI requirements",
     "fee": "Check current UIDAI charges",
-    "mode": ["Aadhaar Seva Kendra", "Enrollment Centre"]
+    "mode": ["Aadhaar Seva Kendra", "Enrollment Centre"],
+    "source_url": "https://uidai.gov.in/en/aadhaar-seva-kendra"
   },
   {
     "id": "015",
@@ -132,7 +147,8 @@
     "valid_documents": ["Proof of Identity", "Proof of Address", "Proof of Date of Birth"],
     "limit": "One Aadhaar per individual",
     "fee": "Free (verify current UIDAI policy)",
-    "mode": ["Aadhaar Seva Kendra", "Enrollment Centre"]
+    "mode": ["Aadhaar Seva Kendra", "Enrollment Centre"],
+    "source_url": "https://uidai.gov.in/en/enrolment-documents"
   },
   {
     "id": "016",
@@ -141,7 +157,8 @@
     "valid_documents": ["Registered Mobile Number", "Identity Verification"],
     "limit": "As required",
     "fee": "Check current UIDAI charges",
-    "mode": ["myAadhaar portal", "UIDAI website"]
+    "mode": ["myAadhaar portal", "UIDAI website"],
+    "source_url": "https://myaadhaar.uidai.gov.in/"
   },
   {
     "id": "017",
@@ -150,7 +167,8 @@
     "valid_documents": ["Aadhaar Number or VID"],
     "limit": "As required",
     "fee": "Check current UIDAI charges",
-    "mode": ["UIDAI website", "myAadhaar portal"]
+    "mode": ["UIDAI website", "myAadhaar portal"],
+    "source_url": "https://uidai.gov.in/en/my-aadhaar"
   },
   {
     "id": "018",
@@ -159,7 +177,8 @@
     "valid_documents": ["Aadhaar authentication"],
     "limit": "As required",
     "fee": "Free (verify current UIDAI policy)",
-    "mode": ["myAadhaar portal", "UIDAI website"]
+    "mode": ["myAadhaar portal", "UIDAI website"],
+    "source_url": "https://uidai.gov.in/en/my-aadhaar"
   },
   {
     "id": "019",
@@ -168,7 +187,8 @@
     "valid_documents": ["Aadhaar authentication"],
     "limit": "Available history as per UIDAI",
     "fee": "Free (verify current UIDAI policy)",
-    "mode": ["myAadhaar portal", "UIDAI website"]
+    "mode": ["myAadhaar portal", "UIDAI website"],
+    "source_url": "https://uidai.gov.in/en/my-aadhaar"
   },
   {
     "id": "020",
@@ -177,6 +197,7 @@
     "valid_documents": ["Aadhaar authentication", "VID if required"],
     "limit": "As required",
     "fee": "Free (verify current UIDAI policy)",
-    "mode": ["myAadhaar portal", "UIDAI website"]
+    "mode": ["myAadhaar portal", "UIDAI website"],
+    "source_url": "https://uidai.gov.in/en/my-aadhaar"
   }
 ]
