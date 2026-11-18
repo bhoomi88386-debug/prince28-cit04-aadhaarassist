@@ -9,25 +9,32 @@ from aadhaarassist.api.errors import register_exception_handlers
 from aadhaarassist.api.middleware import RequestLoggingMiddleware
 from aadhaarassist.api.routes import documents, health
 from aadhaarassist.config import Settings, get_settings
-from aadhaarassist.db.session import engine
+from aadhaarassist.db.session import make_engine, make_sessionmaker
 from aadhaarassist.logging_setup import setup_logging
 
 logger = logging.getLogger("aadhaarassist")
 
 
 def create_app(settings: Settings | None = None) -> FastAPI:
-    """Create the application with the supplied or environment settings."""
+    """Create the application with supplied or environment settings."""
     settings = settings or get_settings()
 
     setup_logging(settings.log_level)
 
+    app_engine = make_engine(settings)
+    app_sessionmaker = make_sessionmaker(app_engine)
+
     @asynccontextmanager
     async def lifespan(app: FastAPI):
-        logger.info("Starting AadhaarAssist with PostgreSQL")
+        """Manage database resources during application lifetime."""
+        logger.info(
+            "Starting AadhaarAssist",
+            extra={"status": settings.app_env},
+        )
         try:
             yield
         finally:
-            await engine.dispose()
+            await app_engine.dispose()
             logger.info("Database engine disposed")
 
     app = FastAPI(
@@ -36,6 +43,10 @@ def create_app(settings: Settings | None = None) -> FastAPI:
         version="1.0.0",
         lifespan=lifespan,
     )
+
+    app.state.settings = settings
+    app.state.engine = app_engine
+    app.state.sessionmaker = app_sessionmaker
 
     app.add_middleware(RequestLoggingMiddleware)
 

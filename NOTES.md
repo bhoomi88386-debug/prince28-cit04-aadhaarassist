@@ -1,19 +1,37 @@
-### Idempotent Database Loader
 
-Successfully tested the idempotent loader.
+# Engineering notes: AadhaarAssist
 
-First run:
-records=20 inserted=20 updated=0 unchanged=0
+## D03 · PostgreSQL
 
-Second run:
-records=20 inserted=0 updated=0 unchanged=20
+### Migrations (upgrade, downgrade, upgrade)
 
-Third run (after modifying one record):
-records=20 inserted=0 updated=1 unchanged=19
+```text
+Paste your actual outputs from:
+uv run alembic downgrade -1
+uv run alembic current
+uv run alembic upgrade head
+uv run alembic history
+```
 
-Verified that:
-- New records are inserted.
-- Existing unchanged records are skipped.
-- Modified records are updated.
-- SHA-256 fingerprints detect record changes.
-- The loader uses a transaction.
+### The loader is idempotent
+
+```text
+Run 1: Paste actual output here
+Run 2: Paste actual output here
+Run 3 (after editing one record): Paste actual output here
+```
+
+### EXPLAIN for field=VALUE
+
+```text
+Paste the actual output from:
+uv run python scripts/explain.py field VALUE
+```
+
+### Why did the planner choose a Seq Scan on my table?
+
+The table contains only a small number of rows, so reading the whole table can be cheaper than using an index.
+
+### When would it switch to the GIN index?
+
+When the table becomes larger and the query is selective enough that using the index is estimated to be cheaper.

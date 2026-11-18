@@ -1,36 +1,21 @@
-"""Health and readiness endpoints."""
+from fastapi import APIRouter, Response
 
-from fastapi import APIRouter
-from fastapi.responses import JSONResponse
-from sqlalchemy import text
+from aadhaarassist.api.deps import DbCheckDep, SettingsDep
 
-from aadhaarassist.db.session import engine
-
-router = APIRouter(tags=["Health"])
+router = APIRouter(tags=["health"])
 
 
 @router.get("/health")
-async def health():
-    """Check whether the application is running."""
-    return {"status": "ok"}
+def health(settings: SettingsDep) -> dict[str, str]:
+    """Liveness: is the process alive? Instant. Never touches the DB or the LLM."""
+    return {"status": "ok", "app": settings.app_name, "env": settings.app_env}
 
 
 @router.get("/ready")
-async def ready():
-    """Check whether the database is reachable."""
-    try:
-        async with engine.connect() as connection:
-            await connection.execute(text("SELECT 1"))
-    except Exception:
-        return JSONResponse(
-            status_code=503,
-            content={
-                "status": "not_ready",
-                "checks": {"database": False},
-            },
-        )
-
-    return {
-        "status": "ready",
-        "checks": {"database": True},
-    }
+async def ready(db_ok: DbCheckDep, response: Response) -> dict:
+    """Readiness: can this instance serve traffic right now?"""
+    checks = {"database": db_ok}
+    ok = all(checks.values())
+    if not ok:
+        response.status_code = 503
+    return {"status": "ready" if ok else "not_ready", "checks": checks}

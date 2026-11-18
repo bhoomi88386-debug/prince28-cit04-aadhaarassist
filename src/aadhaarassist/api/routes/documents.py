@@ -2,10 +2,10 @@
 
 from typing import Annotated
 
-from fastapi import APIRouter, Depends, HTTPException, Query, Request
+from fastapi import APIRouter, HTTPException, Query, Request
 
-from aadhaarassist.api.deps import get_repository
-from aadhaarassist.db.repository import FILTER_KEY, DocumentRepository
+from aadhaarassist.api.deps import RepoDep
+from aadhaarassist.db.repository import FILTER_KEY
 
 router = APIRouter(prefix="/v1/documents", tags=["Documents"])
 
@@ -13,12 +13,12 @@ router = APIRouter(prefix="/v1/documents", tags=["Documents"])
 @router.get("")
 async def list_documents(
     request: Request,
-    repository: Annotated[DocumentRepository, Depends(get_repository)],
+    repository: RepoDep,
     limit: Annotated[int, Query(ge=1, le=100)] = 20,
     offset: Annotated[int, Query(ge=0)] = 0,
     q: str | None = None,
 ):
-    """List documents with optional search, metadata filters, and pagination."""
+    """List documents with optional search, filters, and pagination."""
     filters: dict[str, str] = {}
 
     for key, value in request.query_params.multi_items():
@@ -45,13 +45,14 @@ async def list_documents(
         "items": items,
         "limit": limit,
         "offset": offset,
+        "filters": filters,
     }
 
 
 @router.get("/{document_id}")
 async def get_document(
     document_id: str,
-    repository: Annotated[DocumentRepository, Depends(get_repository)],
+    repository: RepoDep,
 ):
     """Retrieve one document by its ID."""
     document = await repository.get(document_id)
