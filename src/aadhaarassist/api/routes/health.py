@@ -1,37 +1,36 @@
 """Health and readiness endpoints."""
 
-from typing import Annotated
-
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter
 from fastapi.responses import JSONResponse
+from sqlalchemy import text
 
-from aadhaarassist.api.deps import get_store
-from aadhaarassist.store import DocumentStore
+from aadhaarassist.db.session import engine
 
 router = APIRouter(tags=["Health"])
 
 
 @router.get("/health")
-def health():
+async def health():
     """Check whether the application is running."""
     return {"status": "ok"}
 
 
 @router.get("/ready")
-def ready(
-    store: Annotated[DocumentStore, Depends(get_store)],
-):
-    """Check whether the application is ready to serve records."""
-    if not store.is_loaded:
+async def ready():
+    """Check whether the database is reachable."""
+    try:
+        async with engine.connect() as connection:
+            await connection.execute(text("SELECT 1"))
+    except Exception:
         return JSONResponse(
             status_code=503,
             content={
                 "status": "not_ready",
-                "checks": {"records_loaded": False},
+                "checks": {"database": False},
             },
         )
 
     return {
-        "status": "ok",
-        "checks": {"records_loaded": True},
+        "status": "ready",
+        "checks": {"database": True},
     }

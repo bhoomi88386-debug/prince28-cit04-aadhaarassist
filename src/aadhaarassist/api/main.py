@@ -9,8 +9,8 @@ from aadhaarassist.api.errors import register_exception_handlers
 from aadhaarassist.api.middleware import RequestLoggingMiddleware
 from aadhaarassist.api.routes import documents, health
 from aadhaarassist.config import Settings, get_settings
+from aadhaarassist.db.session import engine
 from aadhaarassist.logging_setup import setup_logging
-from aadhaarassist.store import DocumentStore
 
 logger = logging.getLogger("aadhaarassist")
 
@@ -23,19 +23,12 @@ def create_app(settings: Settings | None = None) -> FastAPI:
 
     @asynccontextmanager
     async def lifespan(app: FastAPI):
-        store = DocumentStore(settings.data_file)
-        app.state.store = store
-
+        logger.info("Starting AadhaarAssist with PostgreSQL")
         try:
-            count = store.load()
-            logger.info(
-                "Records loaded successfully",
-                extra={"records": count},
-            )
-        except Exception:
-            logger.exception("Could not load document records")
-
-        yield
+            yield
+        finally:
+            await engine.dispose()
+            logger.info("Database engine disposed")
 
     app = FastAPI(
         title="AadhaarAssist",

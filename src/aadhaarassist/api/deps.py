@@ -1,10 +1,23 @@
 """Shared dependencies used by API routes."""
 
-from fastapi import Request
+from collections.abc import AsyncGenerator
+from typing import Annotated
 
-from aadhaarassist.store import DocumentStore
+from fastapi import Depends
+from sqlalchemy.ext.asyncio import AsyncSession
+
+from aadhaarassist.db.repository import DocumentRepository
+from aadhaarassist.db.session import SessionFactory
 
 
-def get_store(request: Request) -> DocumentStore:
-    """Return the document store attached to the application."""
-    return request.app.state.store
+async def get_session() -> AsyncGenerator[AsyncSession, None]:
+    """Provide one database session per request."""
+    async with SessionFactory() as session:
+        yield session
+
+
+async def get_repository(
+    session: Annotated[AsyncSession, Depends(get_session)],
+) -> DocumentRepository:
+    """Create a document repository using the request session."""
+    return DocumentRepository(session)
