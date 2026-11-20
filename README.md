@@ -158,8 +158,8 @@ The project includes:
 
 
 
-[![CI](https://github.com/bhoomi88386-debug/prince28-cit04-aadhaarassist/actions/workflows/ci.yml/badge.svg)](https://github.com/YOUR-GITHUB-USERNAME/prince28-cit04-aadhaarassist/actions/workflows/ci.yml)
+[![CI](https://github.com/bhoomi88386-debug/prince28-cit04-aadhaarassist/actions/workflows/ci.yml/badge.svg)](https://github.com/bhoomi88386-debug/prince28-cit04-aadhaarassist/actions/workflows/ci.yml)
 [![Live](https://img.shields.io/website?url=https%3A%2F%2Faadhaarassist.onrender.com%2Fhealth&label=live)](https://aadhaarassist.onrender.com/docs)
-[![Uptime (30 days)](https://img.shields.io/uptimerobot/ratio/YOUR-MONITOR-KEY)](https://aadhaarassist.onrender.com/health)
+[![Uptime (30 days)](https://img.shields.io/uptimerobot/ratio/m804746167-78b64c864c4dd47b29da9965)](https://aadhaarassist.onrender.com/health)
 
 **Live:** https://aadhaarassist.onrender.com · [API docs](https://aadhaarassist.onrender.com/docs) · [health](https://aadhaarassist.onrender.com/health)
