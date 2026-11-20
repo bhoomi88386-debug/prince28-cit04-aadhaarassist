@@ -9,33 +9,33 @@ from aadhaarassist.api.errors import register_exception_handlers
 from aadhaarassist.api.middleware import RequestLoggingMiddleware
 from aadhaarassist.api.routes import documents, health
 from aadhaarassist.config import Settings, get_settings
+from aadhaarassist.db.session import make_engine, make_sessionmaker
 from aadhaarassist.logging_setup import setup_logging
-from aadhaarassist.store import DocumentStore
 
 logger = logging.getLogger("aadhaarassist")
 
 
 def create_app(settings: Settings | None = None) -> FastAPI:
-    """Create the application with the supplied or environment settings."""
+    """Create the application with supplied or environment settings."""
     settings = settings or get_settings()
 
     setup_logging(settings.log_level)
 
+    app_engine = make_engine(settings)
+    app_sessionmaker = make_sessionmaker(app_engine)
+
     @asynccontextmanager
     async def lifespan(app: FastAPI):
-        store = DocumentStore(settings.data_file)
-        app.state.store = store
-
+        """Manage database resources during application lifetime."""
+        logger.info(
+            "Starting AadhaarAssist",
+            extra={"status": settings.app_env},
+        )
         try:
-            count = store.load()
-            logger.info(
-                "Records loaded successfully",
-                extra={"records": count},
-            )
-        except Exception:
-            logger.exception("Could not load document records")
-
-        yield
+            yield
+        finally:
+            await app_engine.dispose()
+            logger.info("Database engine disposed")
 
     app = FastAPI(
         title="AadhaarAssist",
@@ -43,6 +43,10 @@ def create_app(settings: Settings | None = None) -> FastAPI:
         version="1.0.0",
         lifespan=lifespan,
     )
+
+    app.state.settings = settings
+    app.state.engine = app_engine
+    app.state.sessionmaker = app_sessionmaker
 
     app.add_middleware(RequestLoggingMiddleware)
 

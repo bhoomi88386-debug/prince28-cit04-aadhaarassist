@@ -1,37 +1,26 @@
-"""Health and readiness endpoints."""
+from fastapi import APIRouter, Response
 
-from typing import Annotated
+from aadhaarassist.api.deps import DbCheckDep, SettingsDep
 
-from fastapi import APIRouter, Depends
-from fastapi.responses import JSONResponse
-
-from aadhaarassist.api.deps import get_store
-from aadhaarassist.store import DocumentStore
-
-router = APIRouter(tags=["Health"])
+router = APIRouter(tags=["health"])
 
 
 @router.get("/health")
-def health():
-    """Check whether the application is running."""
-    return {"status": "ok"}
+def health(settings: SettingsDep) -> dict[str, str]:
+    """Liveness: is the process alive? Instant. Never touches the DB or the LLM."""
+    return {
+        "status": "ok",
+        "app": settings.app_name,
+        "env": settings.app_env,
+        "version": settings.git_sha,  # which commit is live: the smoke test checks this
+    }
 
 
 @router.get("/ready")
-def ready(
-    store: Annotated[DocumentStore, Depends(get_store)],
-):
-    """Check whether the application is ready to serve records."""
-    if not store.is_loaded:
-        return JSONResponse(
-            status_code=503,
-            content={
-                "status": "not_ready",
-                "checks": {"records_loaded": False},
-            },
-        )
-
-    return {
-        "status": "ok",
-        "checks": {"records_loaded": True},
-    }
+async def ready(db_ok: DbCheckDep, response: Response) -> dict:
+    """Readiness: can this instance serve traffic right now?"""
+    checks = {"database": db_ok}
+    ok = all(checks.values())
+    if not ok:
+        response.status_code = 503
+    return {"status": "ready" if ok else "not_ready", "checks": checks}

@@ -1,0 +1,45 @@
+# Git files
+.git
+.gitignore
+
+# Python virtual environments
+.venv
+venv
+env
+
+# Python cache
+__pycache__
+*.py[cod]
+*.pyo
+
+# Testing files
+.pytest_cache
+.coverage
+htmlcov
+.mypy_cache
+.ruff_cache
+
+# Environment variables and secrets
+.env
+.env.*
+!.env.example
+
+# IDE files
+.vscode
+.idea
+
+# Operating system files
+.DS_Store
+Thumbs.db
+
+# Temporary files
+*.log
+tmp/
+temp/
+
+# Local development files
+*.sqlite3
+*.db
+
+# Documentation and unnecessary files
+docs/
