@@ -12,8 +12,14 @@ def health(settings: SettingsDep) -> dict[str, str]:
         "status": "ok",
         "app": settings.app_name,
         "env": settings.app_env,
-        "version": settings.git_sha,  # which commit is live: the smoke test checks this
+        "version": settings.git_sha,
     }
+
+
+@router.head("/health", include_in_schema=False)
+def health_head() -> Response:
+    """Support HEAD requests from uptime monitoring services."""
+    return Response(status_code=200)
 
 
 @router.get("/ready")
