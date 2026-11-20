@@ -11,6 +11,10 @@ class Settings(BaseSettings):
     model_config = SettingsConfigDict(env_file=".env", env_file_encoding="utf-8", extra="ignore")
 
     app_name: str = "aadhaarassist"
+
+    # The commit this image was built from. Locally, the value is "dev".
+    git_sha: str = "dev"
+
     database_url: str
     # No default on purpose: if APP_ENV is missing, the app refuses to start (fail fast).
     app_env: Literal["local", "ci", "production"]
