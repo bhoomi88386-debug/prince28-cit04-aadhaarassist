@@ -112,3 +112,36 @@ Two files or lines my coverage report says are never run, and whether they matte
 
 1. <File or line from actual coverage report> – Check whether it is an optional error-handling or rarely used code path.
 2. <File or line from actual coverage report> – Check whether it is an optional error-handling or rarely used code path.
+
+
+
+## D05 · CI/CD and going live
+
+- **Live URL:** https://aadhaarassist.onrender.com
+- **CI run for pull request 1:** https://github.com/bhoomi88386-debug/prince28-cit04-aadhaarassist/actions
+- **First deploy that ran by itself:** [Paste the successful automatic CD run link]
+- **Merge clicked at:** [HH:MM] → **"Smoke test passed" at:** [HH:MM] → **Lead time:** [___] min
+
+### Smoke test output from that CD run
+
+```text
+[Paste the last 4 lines from the successful "Smoke test the live URL" step]
+```
+
+### Rollback drill
+
+- **Rolled back to SHA:** [Previous commit SHA] : started [HH:MM], smoke passed [HH:MM] ([___] min)
+- **Rolled forward to SHA:** [Newer commit SHA] : [___] min
+- **During the rollback, the database stayed on the newer schema. Why is that safe here?**
+
+The application rollback changes the application version without automatically reversing database migrations. This is safe when the newer database schema remains backward-compatible with the older application version, such as when migrations are additive and do not remove fields or break existing queries.
+
+### Where my secrets live
+
+- Neon connection string: GitHub Secret `DATABASE_URL` and Render environment variables. It is not stored in Git or included in the Docker image.
+- Render deploy hook: GitHub Secret `RENDER_DEPLOY_HOOK` only.
+
+### Monitoring
+
+- UptimeRobot checks `/health` every 5 minutes; alerts go to my email.
+- **One thing that would make my live app faster on its first request:** Upgrade the Render free instance to an always-on paid instance to avoid cold starts after inactivity.
