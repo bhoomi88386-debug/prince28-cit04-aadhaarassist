@@ -63,7 +63,7 @@ jobs:
         run: uv run poe cov
 
   image:
-    name: bulid image
+    name: build image
     needs: test
     runs-on: ubuntu-latest
 
