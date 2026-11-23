@@ -112,3 +112,99 @@ Two files or lines my coverage report says are never run, and whether they matte
 
 1. <File or line from actual coverage report> – Check whether it is an optional error-handling or rarely used code path.
 2. <File or line from actual coverage report> – Check whether it is an optional error-handling or rarely used code path.
+
+
+
+## D05 - CI/CD and Going Live
+
+### 1. CI/CD Pipeline
+
+Implemented GitHub Actions workflows for continuous integration and deployment.
+
+- CI workflow runs automated tests and quality checks.
+- CD workflow handles deployment to Render.
+- GitHub Actions provides automated build and deployment verification.
+- Smoke tests verify whether the deployed API is responding correctly.
+
+### 2. Live Deployment
+
+- Platform: Render
+- Application URL: https://aadhaarassist.onrender.com
+- Health endpoint: https://aadhaarassist.onrender.com/health
+- Deployment status: Successful
+- Latest verified version: 74fc503
+
+### 3. Rollback Drill
+
+Rollback procedure:
+
+1. Identify the latest deployment that introduced an issue.
+2. Open the GitHub repository and identify the previous stable commit.
+3. Revert the problematic commit using Git.
+4. Push the revert commit to the main branch.
+5. Allow the CD workflow to deploy the corrected version.
+6. Verify the deployment using the /health endpoint.
+7. Check Render logs to confirm the application is running correctly.
+
+Rollback verification: The live application returned HTTP 200 from the health endpoint, and its version matched the latest main branch commit.
+
+### 4. Lead Time
+
+Lead time is the time taken from committing a code change until that change is successfully deployed to production.
+
+It can be measured using:
+- Git commit timestamp.
+- GitHub Actions workflow completion timestamp.
+- Successful Render deployment timestamp.
+
+The deployment process is automated using GitHub Actions and Render, reducing manual deployment steps.
+
+### 5. D05 Outcome
+
+- CI/CD workflows configured.
+- Application successfully deployed to Render.
+- Health endpoint verified successfully.
+- Live version matches the latest main branch.
+- Rollback procedure documented.
+
+
+
+## D06 · Collecting the corpus
+
+- Start target: FAQs + document list + regulations.
+- Collected today: 1 UIDAI PDF (Aadhaar Handbook 2026), approximately 18.35 MB. Page count to be measured using `scripts/dataset_report.py`.
+- Doors used: URL list (Door 1). Manual download and other doors are not yet completed.
+
+### Licence check
+
+| Source | Licence or terms, in my words | May I show full text in answers? |
+|---|---|---|
+| UIDAI | Public UIDAI documents. Follow the UIDAI website copyright policy, provide attribution, and respect non-commercial and third-party content restrictions. | Not automatically. Provide the original document link and only permitted extracts. |
+
+### robots.txt
+
+- Site: `https://uidai.gov.in/`
+- Its robots.txt rules must be checked before downloading. The downloader uses the `examate-student-bot` user agent and checks robots.txt before requesting documents.
+- Was anything blocked for my bot? No confirmed UIDAI robots.txt block. A separate local test server allowed requests.
+- What did I do about it? Followed the downloader's robots.txt checks and investigated failed URLs instead of repeatedly requesting them.
+
+### Kill and resume
+
+- Run 1: Ctrl+C after ___ files.
+- Run 2: downloaded=___ skipped=___.
+- Run 3: downloaded=0 skipped=___.
+- The downloader records completed downloads in `data/manifest.jsonl` and skips files that are already downloaded. Full kill-and-resume test results still need to be recorded.
+
+### Capacity (from docs/CAPACITY.md)
+
+- Tokens per page, measured: To be calculated by `scripts/dataset_report.py`.
+- Full corpus: Target of 1,200+ pages. Estimated tokens, chunks, embedding cost in rupees and vector storage will be calculated from the measured dataset.
+- The number that surprised me most, and why: The actual embedding and storage requirements need to be measured before drawing a conclusion.
+
+### One thing that went wrong today, and how I fixed it
+
+The direct URL for Aadhaar (Enrolment and Update) First Amendment Regulations, 2026 returned HTTP 404. I opened the official UIDAI Gazetted Notifications page and confirmed that the regulation was listed there. I inspected the download request using Chrome Developer Tools, but initially captured a Google Analytics request instead of the PDF request. I avoided adding an unverified download URL to `data/sources.csv` and continued investigating the official download link.
+
+### D06 Summary
+
+Implemented the AadhaarAssist corpus collection pipeline with four collection methods: URL list, Git repository, sitemap and manual download. The downloader checks robots.txt, uses a maximum concurrency of four requests, applies a delay between requests to the same host, retries temporary failures and records completed downloads in a JSONL manifest. The Aadhaar Handbook 2026 was successfully downloaded from UIDAI. FAQ, supporting document list and regulations collection, dataset reporting, capacity estimates and complete kill-and-resume verification remain to be finished.

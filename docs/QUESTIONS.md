@@ -1,31 +1,15 @@
+
 # AadhaarAssist - Questions
 
-## Q1
-What documents are accepted as proof of identity?
-
-## Q2
-What documents are accepted as proof of address?
-
-## Q3
-What documents are accepted as proof of date of birth?
-
-## Q4
-What documents are accepted as proof of relationship?
-
-## Q5
-What is the fee for an Aadhaar update?
-
-## Q6
-What is the Aadhaar number of a particular villager?
-
-## Q7
-How many times can a name be updated?
-
-## Q8
-How many times can date of birth be updated?
-
-## Q9
-What is the process for updating Aadhaar details?
-
-## Q10
-Can an Aadhaar update be completed online?
+| No. | Question |
+|---|---|
+| 1 | What documents are accepted as proof of identity? |
+| 2 | What documents are accepted as proof of address? |
+| 3 | What documents are accepted as proof of date of birth? |
+| 4 | What documents are accepted as proof of relationship? |
+| 5 | What is the fee for an Aadhaar update? |
+| 6 | What is the Aadhaar number of a particular villager? |
+| 7 | How many times can a name be updated? |
+| 8 | How many times can date of birth be updated? |
+| 9 | What is the process for updating Aadhaar details? |
+| 10 | Can an Aadhaar update be completed online? |
