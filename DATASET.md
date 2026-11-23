@@ -42,3 +42,14 @@ The complete list, with a sha256 fingerprint of every file, is `data/manifest.js
 ## Known gaps
 
 - (what is still missing from the start target, and why)
+
+
+## Duplicate detection
+
+Duplicate detection was performed using SHA-256 hashes from
+`data/manifest.jsonl`.
+
+- Duplicate groups: 0
+- Extra duplicate downloads: 0
+
+No downloaded files with identical SHA-256 hashes were found.
