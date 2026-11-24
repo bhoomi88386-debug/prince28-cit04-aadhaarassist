@@ -1,6 +1,8 @@
-﻿
 # Sources for AadhaarAssist
 # Official UIDAI documents
 # Check robots.txt and copyright permissions before downloading.
 url,source,licence,title
 https://www.uidai.gov.in/images/LR_Aadhaar_Handbook_2026.pdf,uidai,"UIDAI Website Copyright Policy - reproduction with attribution; research/private study only; non-commercial; third-party content excluded",Aadhaar Handbook 2026
+https://uidai.gov.in/en/faq,uidai,"UIDAI Website Copyright Policy - reproduction with attribution; research/private study only; non-commercial; third-party content excluded",UIDAI Frequently Asked Questions
+https://backend.uidai.gov.in/get/files/media/document/2026-06/Aadhaar_Enrolment_and_Update_First_Amendment_Regulations_2026.pdf,uidai,"UIDAI Website Copyright Policy - reproduction with attribution; research/private study only; non-commercial; third-party content excluded",Aadhaar Enrolment and Update First Amendment Regulations 2026
+https://www.uidai.gov.in/images/commdoc/List_of_Supporting_Document_for_Aadhaar_Enrolment_and_Update.pdf,uidai,"UIDAI Website Copyright Policy - reproduction with attribution; research/private study only; non-commercial; third-party content excluded",List of Supporting Documents for Aadhaar Enrolment and Update
