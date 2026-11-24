@@ -208,8 +208,6 @@ The direct URL for Aadhaar (Enrolment and Update) First Amendment Regulations, 2
 ### D06 Summary
 
 Implemented the AadhaarAssist corpus collection pipeline with four collection methods: URL list, Git repository, sitemap and manual download. The downloader checks robots.txt, uses a maximum concurrency of four requests, applies a delay between requests to the same host, retries temporary failures and records completed downloads in a JSONL manifest. The Aadhaar Handbook 2026 was successfully downloaded from UIDAI. FAQ, supporting document list and regulations collection, dataset reporting, capacity estimates and complete kill-and-resume verification remain to be finished.
-
-
 ### D07 · Parser comparison
 
 | File | Parser | Pages | Characters | Tables | Seconds | Result |
@@ -262,3 +260,20 @@ Implemented the AadhaarAssist corpus collection pipeline with four collection me
 ### One thing that went wrong today, and how I fixed it
 
 The D07 handout referenced `scripts/compare_parsers.py`, but that file was missing. I created it using the existing PyMuPDF and pypdf parser functions. I compared both parsers on all available PDFs and recorded the results above.
+### One thing that went wrong today, and how I fixed it
+
+The D07 handout referenced `scripts/compare_parsers.py`, but that file was missing. I created it using the existing PyMuPDF and pypdf parser functions. I compared both parsers on all available PDFs and recorded the results above.
+
+### D07 · Parser comparison
+
+| File | Parser | Pages | Characters | Tables | Seconds | Result |
+|---|---|---:|---:|---:|---:|---|
+| lr-aadhaar-handbook-2026-42a8ffe4.pdf | PyMuPDF | 68 | 140424 | 5 | 14.86 | OK |
+| lr-aadhaar-handbook-2026-42a8ffe4.pdf | pypdf | 68 | 105149 | 0 | 16.98 | OK |
+| list-of-supporting-document-for-aadhaar-enrolment-and-update-b3619c7f.pdf | PyMuPDF | 22 | 63585 | 41 | 10.68 | OK |
+| list-of-supporting-document-for-aadhaar-enrolment-and-update-b3619c7f.pdf | pypdf | 22 | 51990 | 0 | 1.68 | OK |
+| aadhaar-enrolment-and-update-first-amendment-regulations-202-31d36716.pdf | PyMuPDF | 35 | 95273 | 31 | 7.94 | OK |
+| aadhaar-enrolment-and-update-first-amendment-regulations-202-31d36716.pdf | pypdf | 35 | 67574 | 0 | 2.26 | OK |
+
+| File | Verdict | Reason |
+|---|---|---|

@@ -1,5 +1,9 @@
 # AadhaarAssist
 
+[![CI](https://github.com/bhoomi88386-debug/prince28-cit04-aadhaarassist
+/actions/workflows/ci.yml/badge.svg)](https://github.com/bhoomi88386-debug/prince28-cit04-aadhaarassist
+/actions/workflows/ci.yml)
+
 AadhaarAssist helps service-centre operators understand Aadhaar enrolment and update rules, including valid documents, update limits, fees and procedures, in Tamil and English.
 
 ## Who it's for
@@ -51,6 +55,7 @@ This starts:
 - **Redis:** Caching and job queue service
 - **Migrate:** Applies database migrations and loads seed data
 - **API:** Starts the FastAPI application after dependencies are ready
+**Live:** https://aadhaarassist.onrender.com
 
 ### Check running services
 
