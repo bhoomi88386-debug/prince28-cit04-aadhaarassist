@@ -18,31 +18,34 @@ Public UIDAI documents. Never store real Aadhaar numbers.
 - No personal data is collected.
 
 <!-- generated:start -->
-## Sources (generated 2026-11-23 19:51 UTC by scripts/dataset_report.py)
+## Sources (generated 2026-11-24 06:42 UTC by scripts/dataset_report.py)
 
 | Source | Licence / terms | Files | MB | Pages* | How | Fetched | Example URL |
 |---|---|---|---|---|---|---|---|
-| test | Local test only | 1 | 21.0 | 0 | http | 2026-11-23 | http://127.0.0.1:8765/slow.pdf |
-| uidai | UIDAI Website Copyright Policy - reproduction with attribution; research/private study only; non-commercial; third-party content excluded | 1 | 18.4 | 68 | http | 2026-11-23 | https://www.uidai.gov.in/images/LR_Aadhaar_Handbook_2026.pdf |
+| uidai | UIDAI Website Copyright Policy - reproduction with attribution; research/private study only; non-commercial; third-party content excluded | 4 | 22.0 | 127 | http | 2026-11-24 | https://www.uidai.gov.in/images/LR_Aadhaar_Handbook_2026.pdf |
 
-**Total:** 2 files, 39.3 MB, 68 pages. Not downloaded: 0 blocked by robots.txt, 1 failed.
+**Total:** 4 files, 22.0 MB, 127 pages. Not downloaded: 0 blocked by robots.txt, 0 failed.
 
 *Pages = PDF pages, plus one page per 3,000 characters of text or HTML.
 
-## Files (first 2 of 2)
+## Files (first 4 of 4)
 
 The complete list, with a sha256 fingerprint of every file, is `data/manifest.jsonl`.
 
 | # | Title / file | Source | Pages | Fetched | URL |
 |---|---|---|---|---|---|
-| 1 | Slow Download Test | test |  | 2026-11-23 | http://127.0.0.1:8765/slow.pdf |
-| 2 | Aadhaar Handbook 2026 | uidai | 68 | 2026-11-23 | https://www.uidai.gov.in/images/LR_Aadhaar_Handbook_2026.pdf |
+| 1 | Aadhaar Enrolment and Update First Amendment Regulations 2026 | uidai | 35 | 2026-11-24 | https://backend.uidai.gov.in/get/files/media/document/2026-06/Aadhaar_Enrolment_and_Update_First_Amendment_Regulations_2026.pdf |
+| 2 | UIDAI Frequently Asked Questions | uidai | 2 | 2026-11-24 | https://uidai.gov.in/en/faq |
+| 3 | List of Supporting Documents for Aadhaar Enrolment and Update | uidai | 22 | 2026-11-24 | https://www.uidai.gov.in/images/commdoc/List_of_Supporting_Document_for_Aadhaar_Enrolment_and_Update.pdf |
+| 4 | Aadhaar Handbook 2026 | uidai | 68 | 2026-11-23 | https://www.uidai.gov.in/images/LR_Aadhaar_Handbook_2026.pdf |
 <!-- generated:end -->
 
 ## Known gaps
 
-- (what is still missing from the start target, and why)
-
+- The three start-target categories (FAQs, supporting documents and regulations) are collected.
+- The current FAQ extraction contains only 3 app-related questions; broader Aadhaar FAQs still need coverage.
+- The full corpus still needs additional circulars, notifications and Tamil-language versions.
+- More documents are needed to improve coverage and validate the estimated corpus size.
 
 ## Duplicate detection
 

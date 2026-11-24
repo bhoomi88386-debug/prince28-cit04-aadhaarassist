@@ -7,6 +7,7 @@ Only the part between the two "generated" markers is replaced, so your own notes
 """
 
 import argparse
+import csv
 import json
 import logging
 import sys
@@ -85,6 +86,19 @@ def load_records() -> list[dict]:
             continue
         latest[record["url"]] = record
     return list(latest.values())
+
+
+def load_current_source_urls() -> set[str]:
+    sources_file = Path("data/sources.csv")
+    urls = set()
+
+    with sources_file.open(encoding="utf-8-sig", newline="") as file:
+        lines = (line for line in file if not line.lstrip().startswith("#"))
+        for row in csv.DictReader(lines):
+            if row.get("url"):
+                urls.add(row["url"].strip())
+
+    return urls
 
 
 def measure_all(records: list[dict]) -> None:
@@ -232,8 +246,14 @@ def main() -> int:
         print("data/manifest.jsonl not found: run scripts/fetch.py first")
         return 1
     records = load_records()
-    done = [r for r in records if r["status"] == "downloaded" and Path(r["path"]).is_file()]
-    not_done = [r for r in records if r["status"] != "downloaded"]
+
+    # Local test downloads are for downloader testing, not the UIDAI corpus.
+    corpus_records = [r for r in records if r.get("source") != "test"]
+    done = [r for r in corpus_records if r["status"] == "downloaded" and Path(r["path"]).is_file()]
+    current_urls = load_current_source_urls()
+    not_done = [
+        r for r in corpus_records if r["status"] != "downloaded" and r["url"] in current_urls
+    ]
     measure_all(done)
     if not sum(r["pages"] for r in done):
         print("nothing measurable yet: download some PDF, HTML or text files first")
