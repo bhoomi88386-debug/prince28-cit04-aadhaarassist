@@ -208,3 +208,72 @@ The direct URL for Aadhaar (Enrolment and Update) First Amendment Regulations, 2
 ### D06 Summary
 
 Implemented the AadhaarAssist corpus collection pipeline with four collection methods: URL list, Git repository, sitemap and manual download. The downloader checks robots.txt, uses a maximum concurrency of four requests, applies a delay between requests to the same host, retries temporary failures and records completed downloads in a JSONL manifest. The Aadhaar Handbook 2026 was successfully downloaded from UIDAI. FAQ, supporting document list and regulations collection, dataset reporting, capacity estimates and complete kill-and-resume verification remain to be finished.
+### D07 · Parser comparison
+
+| File | Parser | Pages | Characters | Tables | Seconds | Result |
+|---|---|---:|---:|---:|---:|---|
+| slow-a08b411f.pdf | PyMuPDF | 0 | 0 | 0 | 0.12 | ERROR: ParseError |
+| slow-a08b411f.pdf | pypdf | 0 | 0 | 0 | 1.58 | ERROR: ParseError |
+| lr-aadhaar-handbook-2026-42a8ffe4.pdf | PyMuPDF | 68 | 140424 | 5 | 19.33 | OK |
+| lr-aadhaar-handbook-2026-42a8ffe4.pdf | pypdf | 68 | 105149 | 0 | 15.87 | OK |
+| list-of-supporting-document-for-aadhaar-enrolment-and-update-b3619c7f.pdf | PyMuPDF | 22 | 63585 | 41 | 11.32 | OK |
+| list-of-supporting-document-for-aadhaar-enrolment-and-update-b3619c7f.pdf | pypdf | 22 | 51990 | 0 | 1.88 | OK |
+| aadhaar-enrolment-and-update-first-amendment-regulations-202-31d36716.pdf | PyMuPDF | 35 | 95273 | 31 | 7.36 | OK |
+| aadhaar-enrolment-and-update-first-amendment-regulations-202-31d36716.pdf | pypdf | 35 | 67574 | 0 | 1.77 | OK |
+
+| File | Verdict | Reason |
+|---|---|---|
+| lr-aadhaar-handbook-2026-42a8ffe4.pdf | PyMuPDF | More text and 5 tables; pypdf is slightly faster |
+| list-of-supporting-document-for-aadhaar-enrolment-and-update-b3619c7f.pdf | PyMuPDF | More text and 41 tables; pypdf is faster |
+| aadhaar-enrolment-and-update-first-amendment-regulations-202-31d36716.pdf | PyMuPDF | More text and 31 tables; pypdf is faster |
+| slow-a08b411f.pdf | Tie | Both correctly reject the intentionally corrupt test PDF |
+
+### D07 · Parsing my corpus
+
+- Files in the manifest: 5 · parsed: 4 · failed: 1 · pages in Postgres: 126
+- Parsing coverage: 80% of all manifest files, or 100% of valid UIDAI source files.
+- Parsed documents: Aadhaar Handbook (68 pages), UIDAI FAQ (1 page), List of Supporting Documents (22 pages), Aadhaar Regulations (35 pages).
+
+### Failures by reason
+
+| Reason | Files | What I did |
+|---|---:|---|
+| corrupt | 1 | Confirmed this is the intentionally corrupted slow-download test PDF, not a real UIDAI document. Both parsers correctly rejected it. |
+
+- The one I investigated: `data/raw/test/slow-a08b411f.pdf`, reason `corrupt`; fix: no repair needed because it is an intentional test file.
+
+### What I saw when I read my parsed pages
+
+- A page where the heading path is right: Aadhaar Handbook, page 35; section headings were extracted.
+- Something that came out wrong: Aadhaar Regulations, page 1; Hindi text contains encoding artefacts such as `xxxGIDHxxx`.
+- A table: List of Supporting Documents, page 12; extracted as a Markdown table.
+- Tamil documents inspected: None available in the current corpus.
+- Another extraction issue: a control character appeared in the supporting-documents PDF.
+
+### My parser choice
+
+- For PDFs I use PyMuPDF because it extracted more characters and detected 77 tables across the three valid PDFs. pypdf detected zero tables.
+- pypdf was faster in these tests, but its output contained fewer characters.
+- A kind of document neither parser handles well: PDFs with legacy or incorrectly encoded Hindi fonts.
+- The comparison covered all 3 valid PDFs available in my corpus, not 10, because the current corpus contains only 3 valid PDFs.
+
+### One thing that went wrong today, and how I fixed it
+
+The D07 handout referenced `scripts/compare_parsers.py`, but that file was missing. I created it using the existing PyMuPDF and pypdf parser functions. I compared both parsers on all available PDFs and recorded the results above.
+### One thing that went wrong today, and how I fixed it
+
+The D07 handout referenced `scripts/compare_parsers.py`, but that file was missing. I created it using the existing PyMuPDF and pypdf parser functions. I compared both parsers on all available PDFs and recorded the results above.
+
+### D07 · Parser comparison
+
+| File | Parser | Pages | Characters | Tables | Seconds | Result |
+|---|---|---:|---:|---:|---:|---|
+| lr-aadhaar-handbook-2026-42a8ffe4.pdf | PyMuPDF | 68 | 140424 | 5 | 14.86 | OK |
+| lr-aadhaar-handbook-2026-42a8ffe4.pdf | pypdf | 68 | 105149 | 0 | 16.98 | OK |
+| list-of-supporting-document-for-aadhaar-enrolment-and-update-b3619c7f.pdf | PyMuPDF | 22 | 63585 | 41 | 10.68 | OK |
+| list-of-supporting-document-for-aadhaar-enrolment-and-update-b3619c7f.pdf | pypdf | 22 | 51990 | 0 | 1.68 | OK |
+| aadhaar-enrolment-and-update-first-amendment-regulations-202-31d36716.pdf | PyMuPDF | 35 | 95273 | 31 | 7.94 | OK |
+| aadhaar-enrolment-and-update-first-amendment-regulations-202-31d36716.pdf | pypdf | 35 | 67574 | 0 | 2.26 | OK |
+
+| File | Verdict | Reason |
+|---|---|---|

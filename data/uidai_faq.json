@@ -1,0 +1,17 @@
+[
+    {
+        "question":  "How to download the Aadhaar app?",
+        "answer":  "You can download the Aadhaar app on your Android/iOS device from the Play Store/App Store. For Android: https://play.google.com/store/apps/details?id=in.gov.uidai.pehchaan  For iOS: https://apps.apple.com/in/app/aadhaar/id6744029871",
+        "source":  "https://uidai.gov.in/en/faq"
+    },
+    {
+        "question":  "How to register on the Aadhaar app?",
+        "answer":  "After downloading the app, the Aadhaar Number Holder (ANH): →Select Language→ Enters their Aadhaar number → Agrees to the Terms and Conditions and Privacy Policy → Chooses the SIM card → Performs Face Authentication → Gets registered on the app → Sets a 6-digit PIN to secure access to the app.",
+        "source":  "https://uidai.gov.in/en/faq"
+    },
+    {
+        "question":  "Which services are available on this app?",
+        "answer":  "Presently, the Aadhaar app offers various services like - Mobile Number Update, Address Update, Biometric lock/unlock, Selective Sharing of Aadhaar Verifiable Credential, check Authentication History, download e-Aadhaar, share Contact Card, Track my request, etc.",
+        "source":  "https://uidai.gov.in/en/faq"
+    }
+]

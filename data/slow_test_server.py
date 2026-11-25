@@ -2,7 +2,26 @@ import contextlib
 import socket
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 
-FILE_DATA = b"A" * (2 * 1024 * 1024)
+import pymupdf
+
+
+def make_pdf():
+    doc = pymupdf.open()
+    page = doc.new_page()
+    page.insert_text((72, 72), "AadhaarAssist - Slow Download Resume Test")
+    page.insert_text((72, 100), "This is a valid PDF used to test interrupted downloads.")
+
+    pdf = doc.tobytes()
+    doc.close()
+
+    target_size = 2 * 1024 * 1024
+    if len(pdf) >= target_size:
+        raise RuntimeError("Generated PDF is unexpectedly large")
+
+    return pdf + b"\n" + b" " * (target_size - len(pdf) - 1)
+
+
+FILE_DATA = make_pdf()
 INTERRUPTED_ONCE = False
 
 
@@ -38,12 +57,12 @@ class Handler(BaseHTTPRequestHandler):
                 return
 
             remaining = FILE_DATA[start:]
-
             self.send_response(206)
             self.send_header("Content-Type", "application/pdf")
             self.send_header("Content-Length", str(len(remaining)))
             self.send_header(
-                "Content-Range", f"bytes {start}-{len(FILE_DATA) - 1}/{len(FILE_DATA)}"
+                "Content-Range",
+                f"bytes {start}-{len(FILE_DATA) - 1}/{len(FILE_DATA)}",
             )
             self.end_headers()
             self.wfile.write(remaining)
@@ -74,5 +93,5 @@ class Handler(BaseHTTPRequestHandler):
         print(format % args)
 
 
-print("Range test server running at http://127.0.0.1:8765")
+print(f"Range test server running at http://127.0.0.1:8765 ({len(FILE_DATA)} bytes)")
 ThreadingHTTPServer(("127.0.0.1", 8765), Handler).serve_forever()
