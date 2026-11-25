@@ -77,3 +77,7 @@ def register_exception_handlers(app: FastAPI) -> None:
         RequestValidationError,
         validation_exception_handler,
     )
+
+
+# Compatibility alias used by the app factory.
+register_error_handlers = register_exception_handlers

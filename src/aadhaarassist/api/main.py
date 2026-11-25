@@ -1,58 +1,46 @@
-"""Create and configure the AadhaarAssist FastAPI application."""
+"""App factory: build a fully wired FastAPI app from settings."""
 
 import logging
 from contextlib import asynccontextmanager
 
-from fastapi import FastAPI
+from fastapi import APIRouter, FastAPI
 
-from aadhaarassist.api.errors import register_exception_handlers
-from aadhaarassist.api.middleware import RequestLoggingMiddleware
-from aadhaarassist.api.routes import documents, health
+from aadhaarassist.api.errors import register_error_handlers
+from aadhaarassist.api.middleware import request_context
+from aadhaarassist.api.routes import chat, documents, health
 from aadhaarassist.config import Settings, get_settings
+from aadhaarassist.db.llm_calls import make_recorder
 from aadhaarassist.db.session import make_engine, make_sessionmaker
+from aadhaarassist.llm.gateway import build_gateway
 from aadhaarassist.logging_setup import setup_logging
 
 logger = logging.getLogger("aadhaarassist")
 
 
 def create_app(settings: Settings | None = None) -> FastAPI:
-    """Create the application with supplied or environment settings."""
     settings = settings or get_settings()
-
     setup_logging(settings.log_level)
-
-    app_engine = make_engine(settings)
-    app_sessionmaker = make_sessionmaker(app_engine)
+    engine = make_engine(settings)  # no connection is opened yet
 
     @asynccontextmanager
     async def lifespan(app: FastAPI):
-        """Manage database resources during application lifetime."""
-        logger.info(
-            "Starting AadhaarAssist",
-            extra={"status": settings.app_env},
-        )
-        try:
-            yield
-        finally:
-            await app_engine.dispose()
-            logger.info("Database engine disposed")
+        logger.info("starting", extra={"status": settings.app_env})
+        yield
+        await engine.dispose()  # close every pooled connection on shutdown
 
-    app = FastAPI(
-        title="AadhaarAssist",
-        description="Aadhaar update assistance API",
-        version="1.0.0",
-        lifespan=lifespan,
-    )
-
+    app = FastAPI(title=settings.app_name, version="0.2.0", lifespan=lifespan)
     app.state.settings = settings
-    app.state.engine = app_engine
-    app.state.sessionmaker = app_sessionmaker
+    app.state.engine = engine
+    app.state.sessionmaker = make_sessionmaker(engine)
+    app.state.system_prompt = chat.load_prompt(settings.prompts_dir)  # missing file: no start
+    app.state.gateway = build_gateway(settings, make_recorder(app.state.sessionmaker))
 
-    app.add_middleware(RequestLoggingMiddleware)
+    app.middleware("http")(request_context)
+    register_error_handlers(app)
 
-    register_exception_handlers(app)
-
+    v1 = APIRouter(prefix="/v1")
+    v1.include_router(documents.router)
+    v1.include_router(chat.router)
     app.include_router(health.router)
-    app.include_router(documents.router)
-
+    app.include_router(v1)
     return app
