@@ -7,7 +7,7 @@ from fastapi import APIRouter, HTTPException, Query, Request
 from aadhaarassist.api.deps import RepoDep
 from aadhaarassist.db.repository import FILTER_KEY
 
-router = APIRouter(prefix="/v1/documents", tags=["Documents"])
+router = APIRouter(prefix="/documents", tags=["Documents"])
 
 
 @router.get("")

@@ -277,3 +277,163 @@ The D07 handout referenced `scripts/compare_parsers.py`, but that file was missi
 
 | File | Verdict | Reason |
 |---|---|---|
+
+# D08 · LLM Gateway — Day 1 Results
+
+## 1. Provider configuration
+
+- **Primary:** Gemini (`gemini-3.8-flash`)
+- **Fallback:** Groq (`openai/gpt-oss-20b`)
+
+### First question on my laptop
+
+- First words after: **Not measured yet**
+- Total response time: **Not measured yet**
+- Tokens in / out: **Not measured yet**
+- Cost: **Not measured yet**
+
+**Expected output:** The gateway should return a response from Gemini when available. If Gemini fails, it should automatically use Groq and return the fallback response.
+
+### Same question on my live URL (second, awake request)
+
+- First words after: **Not measured yet**
+- Day 1 target: **Under 1.5 seconds**
+
+**Expected output:** The second request should respond faster if the application and provider connections are already warm. Actual streaming latency must be measured separately.
+
+---
+
+## 2. Tokens: English against Tamil
+
+| Message | Tokens in |
+|---|---:|
+| "Hi" (baseline: mostly my system prompt) | Not measured |
+| The English sentence | Not measured |
+| The same sentence in Tamil | Not measured |
+
+- Tamil message token multiplier: **Not measured yet**
+
+**Expected output:** Tamil may require more tokens than the equivalent English sentence, depending on the tokenizer and the exact wording. The ratio must be calculated from actual API usage.
+
+---
+
+## 3. What the model does without my documents
+
+- **Question 6:** "Is this person's Aadhaar linked to their bank account?"
+  - Actual response: Not tested / not recorded.
+  - Expected behaviour: The model should admit that it cannot know whether an individual's Aadhaar is linked to their bank account without access to verified information.
+
+- **A detail it got wrong or invented:**
+  - Actual example: Not recorded.
+  - Expected format: Question → Model's answer → Verified truth.
+
+- **Off-topic question:**
+  - Actual response: Not recorded.
+  - Expected behaviour: The model should politely decline or redirect in one concise sentence.
+
+---
+
+## 4. Fallback and circuit breaker
+
+### Provider health tests
+
+Repeated runs of `uv run python scripts/llm_ping.py` showed:
+
+| Provider | Result | Observed response time |
+|---|---|---:|
+| Gemini | Initially failed with ReadTimeout / HTTP 503 | Unavailable during those attempts |
+| Groq | Successful | 639–1433 ms |
+| Gemini (later attempt) | Successful | 2409 ms |
+| Groq (same later attempt) | Successful | 1192 ms |
+
+- Gemini's HTTP 503 message indicated temporary high demand.
+- Groq successfully returned `pong` in every recorded run.
+- One successful Gemini test reported model `gemini-3.5-flash`, not `gemini-3.8-flash`. Verify the configured model before treating this as a successful test of the intended primary model.
+
+### Fallback and circuit breaker results
+
+- With the primary broken, provider: **Gemini (primary failed)**
+- Fallback: **Groq (`openai/gpt-oss-20b`)**
+- First words after: **Not measured through the application gateway**
+- Question at which `llm call gemini … error` stopped appearing: **Not measured**
+
+**Expected behaviour:** When Gemini fails after the configured retry attempts, the gateway should switch to Groq. The circuit breaker should reduce repeated calls to an unhealthy primary provider.
+
+---
+
+## 5. The bill
+
+`/v1/usage` actual application results: **Not recorded yet**.
+
+- Calls today: Not measured
+- Errors: Not measured
+- Fallbacks: Not measured
+- Cost: Not measured
+- Average cost per answered question: Not measured
+- Day 1 cost target: **Under ₹0.50 per answered question**
+
+**Expected output:** The usage endpoint should return today's call count, errors, fallback count, token usage and total estimated cost in INR.
+
+Average cost formula:
+
+`Total cost in INR / Number of answered questions`
+
+---
+
+## 6. One thing that went wrong today, and how I fixed it
+
+### Problem 1: Gemini provider instability
+
+Gemini repeatedly returned `ReadTimeout` and HTTP 503 errors because the provider was temporarily experiencing high demand.
+
+**Fix / observation:**
+- Ran `scripts/llm_ping.py` repeatedly to check both providers.
+- Confirmed Groq was responding successfully.
+- Later, Gemini also returned a successful `pong` response.
+- This confirmed that the fallback provider was reachable even when the primary provider was unavailable.
+
+### Problem 2: Missing request ID context
+
+Running:
+
+`uv run pytest tests/unit/test_gateway.py`
+
+initially failed because `gateway.py` imported `request_id_ctx` from `logging_setup.py`, but that variable was missing.
+
+**Fix:**
+- Added a `ContextVar` named `request_id_ctx` in `logging_setup.py`.
+- Updated the request middleware to set the request ID before processing the request.
+- Reset the context variable after the request finished.
+
+### Problem 3: Incorrect SQLAlchemy import
+
+Alembic initially failed because `Numeric` was not imported correctly.
+
+**Fix:**
+- Corrected the import to use `sqlalchemy.Numeric`, not `sqlalchemy.orm.Numeric`.
+- Successfully generated the `add_llm_calls` migration.
+- Successfully applied it using `uv run alembic upgrade head`.
+
+### Final verification
+
+| Check | Result |
+|---|---|
+| Gateway unit tests | 19 passed |
+| API unit tests | 17 passed |
+| Full unit test suite | 59 passed |
+| Ruff lint | All checks passed |
+| Ruff format | 59 files already formatted |
+| Full pytest run | All tests passed |
+| Local development server | Started successfully |
+
+Commands executed successfully:
+
+- `uv run pytest -q`
+- `uv run pytest tests/unit/test_gateway.py -q`
+- `uv run pytest tests/unit/test_api.py -q`
+- `uv run poe test`
+- `uv run poe lint`
+- `uv run alembic upgrade head`
+- `uv run poe dev`
+
+**Final status:** The gateway-related unit tests pass, linting and formatting checks pass, the database migration was applied, and the local FastAPI development server started successfully. Provider latency, live URL latency, Tamil token comparison, fallback timing and usage costs still need to be measured.
