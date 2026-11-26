@@ -437,3 +437,42 @@ Commands executed successfully:
 - `uv run poe dev`
 
 **Final status:** The gateway-related unit tests pass, linting and formatting checks pass, the database migration was applied, and the local FastAPI development server started successfully. Provider latency, live URL latency, Tamil token comparison, fallback timing and usage costs still need to be measured.
+
+## D09 · Prompt versions compared
+
+<!-- prompts:start -->
+
+| Prompt version | Correct | Accuracy | Invalid replies | Avg tokens in |
+|---|---|---|---|---|
+| classify_v1 | 13/20 | 65% | 0 | 85 |
+| classify_v2 | 20/20 | 100% | 0 | 288 |
+| classify_v3 | 20/20 | 100% | 0 | 600 |
+| classify_v4 | 20/20 | 100% | 0 | 684 |
+
+<!-- prompts:end -->
+
+## D09 · Prompts and structured output
+
+- **My best router prompt:** `classify_v4` with **20/20 (100%)**. Versions v2, v3 and v4 all achieved 20/20.
+- **What I changed in v4, and what happened to the score:** Added a decision rule explaining that classification must depend on the information required to answer the question, not just keywords. It clarified the difference between document-based questions, live/personal questions and unrelated questions. The score remained 20/20.
+- **The question my best version still gets wrong (line, wanted, got), and why I think so:** None in the 20-question test set. Best version achieved 100%.
+- **A label in my test set that I changed after seeing the results:** None.
+- **Input tokens per question:** v1 — exact average not recorded here; best version — exact average not recorded here. v1 achieved 65%, while v4 achieved 100% (+35 percentage points). The extra accuracy is worth the additional prompt instructions, although token cost should also be considered.
+
+## My contract (DocMeta)
+
+- **Fields I kept from my project card:** `doc_kind`, `year`, `language`, `summary`, `topics`.
+- **Fields I deleted, and why they make no sense per document:** Operational details such as fees, update limits, enrolment modes and valid-document lists were not kept as universal metadata fields. They are document-specific content and should be retrieved from the relevant source rather than forced into every document's metadata.
+- **The field I tightened, and how:** `year`. It must represent a plausible publication year rather than an arbitrary number. Missing years can remain null, and invalid future values such as 3024 are rejected.
+
+## Extraction run
+
+- **Prompt version:** `extract_v1` · **Documents:** 4 OK, 1 repaired, 0 failed (out of 4 parsed). The repaired record is included in the successful records.
+- **Not finished? Why, and how many are left:** The first run stopped because Gemini's circuit breaker was open and Groq returned HTTP 429 rate-limit errors. I waited and reran the same command. Extraction subsequently completed; the final run reported `pending=0`.
+- **Most common failure reason, and what I did about it:** The model initially returned a response without a valid JSON object. The repair mechanism retried with the validation error. I also waited for provider rate limits to recover before continuing.
+- **A record that was valid but wrong:** The supporting-documents PDF (`f-07e1d5ff18a56ac8e565`) produced a `valid_documents` list containing only seven entries, even though the source PDF contains 41 tables. This is a possible incomplete extraction that needs checking against the original document.
+- **Cost at list price:** Rs **0.2673** in total (Rs 0.1499 + Rs 0.1174), approximately Rs **0.0668 per document** across four successfully extracted documents.
+
+## One thing that went wrong today, and how I fixed it
+
+The extraction process stopped because Gemini became unavailable through its circuit breaker and Groq returned a 429 rate-limit error. Instead of resetting the extraction or deleting completed records, I waited for the limits to recover and ran the same command again. The script resumed pending records, used its repair mechanism for invalid JSON, and eventually completed with zero pending and zero failed records.
