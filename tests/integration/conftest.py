@@ -12,7 +12,6 @@ import uuid
 import pytest
 from alembic import command
 from alembic.config import Config
-from sqlalchemy import text
 from sqlalchemy.engine import make_url
 from sqlalchemy.ext.asyncio import create_async_engine
 
@@ -33,18 +32,11 @@ def pytest_collection_modifyitems(config, items):
 
 
 async def _admin(sql: str) -> None:
-    # Connect to the existing PostgreSQL admin database.
-    # Do not connect to app_test because it may not exist yet.
     admin_url = make_url(to_asyncpg_url(BASE_URL)).set(database="postgres")
-
-    engine = create_async_engine(
-        admin_url,
-        isolation_level="AUTOCOMMIT",
-    )
-
+    engine = create_async_engine(admin_url, isolation_level="AUTOCOMMIT")
     try:
         async with engine.connect() as conn:
-            await conn.execute(text(sql))
+            await conn.execute(__import__("sqlalchemy").text(sql))
     finally:
         await engine.dispose()
 
