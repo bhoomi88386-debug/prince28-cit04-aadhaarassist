@@ -476,3 +476,38 @@ Commands executed successfully:
 ## One thing that went wrong today, and how I fixed it
 
 The extraction process stopped because Gemini became unavailable through its circuit breaker and Groq returned a 429 rate-limit error. Instead of resetting the extraction or deleting completed records, I waited for the limits to recover and ran the same command again. The script resumed pending records, used its repair mechanism for invalid JSON, and eventually completed with zero pending and zero failed records.
+
+# D10 · Queue and worker
+
+- First run: **1 document queued**, finished in **34.9 s**. Done **1**, skipped **0**, failed **0**.
+- Pace: **34.9 s per document** (INGEST_RPM = **not verified**, INGEST_CONCURRENCY = **not verified**).
+
+## Kill test
+
+- Queued: **1 (not 20)**. At the kill: queued **0**, running **1**, done **0**, failed **0**.
+- After the new worker: done **1** + skipped **0** + failed **0** = **1** (the 20-item test is still pending).
+- Documents in the database: **24 total reported**; different IDs: **not independently verified**.
+- The interrupted item completed after the worker restarted; the job reported approximately **189.8 seconds** to finish.
+- Why that long: the worker had to restart, reclaim the unfinished item, download/process the document and complete ingestion.
+- Why nothing was doubled (one sentence, in my own words): The worker recovered the unfinished job and reused the existing document record instead of creating a duplicate.
+
+## Dead-letter list
+
+| Stage (parse / extract / download / gave up) | Items | What I did |
+|---|---:|---|
+| All stages | 0 | Checked `/v1/ingest/dead-letter`; it returned `count: 0` and an empty list. |
+
+## Live ingestion
+
+- AadhaarAssist on Render: **0 of 5 confirmed queued**, **0 confirmed failed**. The request returned **HTTP 404 Not Found** because the live service on the `main` branch does not expose the D10 ingestion endpoint yet.
+- A request without the token gets status **401 expected, not yet tested**.
+
+## Week 2 against Monday's estimate
+
+- `docs/CAPACITY.md` said: **127 pages, approximately 60,859 tokens**.
+- `docs/INGEST_REPORT.md` says: **126 pages**; actual token count **needs to be checked in the report**.
+- The difference in pages is **1 page**. The corpus processing/reporting counted 126 pages instead of the estimated 127. The token difference needs the actual report token count before it can be calculated.
+
+## One thing that went wrong today, and how I fixed it
+
+My Docker Compose file had incorrect YAML indentation, which caused Docker Compose validation errors. I replaced the complete `docker-compose.yml` with correctly structured service definitions and verified it using `docker compose config --quiet`. I also found that my integration tests were configured to use Neon instead of the local test database, so I started setting up the local `app_test` database to avoid accidentally running tests against the production database.
