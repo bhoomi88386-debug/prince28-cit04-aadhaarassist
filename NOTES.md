@@ -484,12 +484,12 @@ The extraction process stopped because Gemini became unavailable through its cir
 
 ## Kill test
 
-- Queued: **1 (not 20)**. At the kill: queued **0**, running **1**, done **0**, failed **0**.
-- After the new worker: done **1** + skipped **0** + failed **0** = **1** (the 20-item test is still pending).
-- Documents in the database: **24 total reported**; different IDs: **not independently verified**.
-- The interrupted item completed after the worker restarted; the job reported approximately **189.8 seconds** to finish.
-- Why that long: the worker had to restart, reclaim the unfinished item, download/process the document and complete ingestion.
-- Why nothing was doubled (one sentence, in my own words): The worker recovered the unfinished job and reused the existing document record instead of creating a duplicate.
+- Queued: **20 documents**. At the worker interruption: **1 running**, **19 queued**, **0 done**, **0 failed**.
+- Recovery: the replacement worker reclaimed item **1 on attempt 2** and processed items **2 through 20**.
+- Final result: **20 done + 0 skipped + 0 failed = 20**.
+- Database verification: **20 document records** with **20 distinct document IDs**.
+- Duplicate check: all 20 test items produced distinct document records; no duplicate document IDs were found.
+- Why nothing was lost: the unfinished job remained in the queue and was recovered by the replacement worker after the original worker stopped.
 
 ## Dead-letter list
 
