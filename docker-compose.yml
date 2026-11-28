@@ -36,7 +36,7 @@ services:
     environment: &app-env
       APP_ENV: local
       DATABASE_URL: postgresql://${POSTGRES_USER:-app}:${POSTGRES_PASSWORD:-localdev}@db:5432/${POSTGRES_DB:-app}
-    REDIS_URL: redis://redis:6379
+      REDIS_URL: redis://redis:6379
     depends_on:
       db:
         condition: service_healthy
